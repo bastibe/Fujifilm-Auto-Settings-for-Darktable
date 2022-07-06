@@ -1,4 +1,4 @@
---[[ fujifilm_auto_settings-0.2
+--[[ fujifilm_auto_settings-0.3
 
 Apply Fujifilm film simulations, in-camera crop mode, and dynamic range.
 
@@ -50,6 +50,7 @@ In order to use this plugin, you must prepare a number of styles:
 - classic_chrome
 - pro_neg_standard
 - pro_neg_high
+- eterna
 - acros_green
 - acros_red
 - acros_yellow
@@ -76,9 +77,11 @@ ratios: 2:3 (default), 16:9, and 1:1.
 This plugin checks the image's "Raw Image Aspect Ratio" exif
 parameter, and applies the appropriate style.
 
-To use, prepare another two styles:
-- square_crop
-- sixteen_by_nine_crop
+To use, prepare another four styles:
+- square_crop_portrait
+- square_crop_landscape
+- sixteen_by_nine_crop_portrait
+- sixteen_by_nine_crop_landscape
 
 These styles should apply a square crop and a 16:9 crop. If no
 matching style exists, no action is taken and no harm is done.
@@ -205,11 +208,19 @@ local function detect_auto_settings(event, image)
         apply_tag(image, "3:2")
         -- default; no need to apply style
     elseif raw_aspect_ratio == "1:1" then
-        apply_style(image, "square_crop")
+        if image.width > image.height then
+            apply_style(image, "square_crop_landscape")
+        else
+            apply_style(image, "square_crop_portrait")
+        end
         apply_tag(image, "1:1")
         dt.print_log("[fujifilm_auto_settings] square crop")
     elseif raw_aspect_ratio == "16:9" then
-        apply_style(image, "sixteen_by_nine_crop")
+        if image.width > image.height then
+            apply_style(image, "sixteen_by_nine_crop_landscape")
+        else
+            apply_style(image, "sixteen_by_nine_crop_portrait")
+        end
         apply_tag(image, "16:9")
         dt.print_log("[fujifilm_auto_settings] 16:9 crop")
     end
@@ -220,6 +231,7 @@ local function detect_auto_settings(event, image)
         ["Provia"] = "provia",
         ["Astia"] = "astia",
         ["Classic Chrome"] = "classic_chrome",
+        ["Eterna"] = "eterna",
         ["Acros+G"] = "acros_green",
         ["Acros+R"] = "acros_red",
         ["Acros+Ye"] = "acros_yellow",
