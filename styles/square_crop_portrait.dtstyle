@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<darktable_style version="1.0"><info><name>square_crop_portrait</name><description></description></info><style><plugin><num>19</num><module>1</module><operation>crop</operation><op_params>00000000044a2b3e0000803f802d553f0100000001000000</op_params><enabled>1</enabled><blendop_params>gz14eJxjYIAACQYYOOHEgAZY0QVwggZ7CB6pfNoAAE8gGQg=</blendop_params><blendop_version>11</blendop_version><multi_priority>0</multi_priority><multi_name></multi_name></plugin></style></darktable_style>

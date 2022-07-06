@@ -10,7 +10,7 @@ This repository contains styles and scripts and LUTs to automatically read and a
 
 Install `exiftool` and make sure it is available on `$PATH`.
 
-Go to Darktable's settings, in the tab "processing", set a 3D lut root folder. Copy the supplied LUTs into that directory, such that e.g. the Provia LUT is at `$3DLUTROOTFOLDER/Fujifilm XTrans III/Provia.3dl`.
+Go to Darktable's settings, in the tab "processing", set a 3D lut root folder. Copy the supplied LUTs into that directory, such that e.g. the Provia LUT is at `$3DLUTROOTFOLDER/Fuji XTrans VII/provia.png`.
 
 Import the styles in the `styles` subdirectory. The film simulation styles rely on the LUTs installed in the previous step.
 
@@ -28,37 +28,28 @@ The lua plugin calls `exiftool` to read the film simulation, crop mode, and DR m
 
 #### Film Simulations
 
-The following styles apply Fuji film simulations from [Stuart Sowerby](https://blog.sowerby.me/fuji-film-simulation-profiles/):
+The following styles apply Fuji film simulations from https://github.com/bastibe/LUT-Maker:
 
 - acros
-- acros\_green
-- acros\_red
-- acros\_yellow
 - astia
+- eterna
 - classic\_chrome
-- mono
-- mono\_green
-- mono\_red
-- mono\_yellow
 - pro\_neg\_high
 - pro\_neg\_standard
 - provia
 - sepia
 - velvia
 
-These styles do two things:
-
-- activate *LUT 3D*, and set the appropriate LUT
-- activate *Filmic RGB* and lower contrast to 1.0
-
-The contrast is reduced since it seems to me that *Filmic RGB's* default contrast comes out a bit too strong when combined with the LUTs.
+These styles activate *LUT 3D*, and set the appropriate LUT.
 
 #### Crop
 
 The following styles apply a 16:9/1:1 crop:
 
-- sixteen\_by\_nine\_crop
-- square\_crop
+- sixteen\_by\_nine\_crop\_portrait
+- sixteen\_by\_nine\_crop\_landscape
+- square\_crop\_portrait
+- square\_crop\_landscape
 
 2:3 crop does not have its own style, since Fujifilm images are already 2:3.
 
@@ -83,4 +74,4 @@ Some of the LUTs may introduce a magenta tint to highlights. Let me know if you 
 
 ## License
 
-The LUTs don't mention a specific license, but they are included in G'MIC, which uses a GPL-compatible license. Thus I place this repository under the terms of the GPL as well. The original copyright of the LUTs are with Stuart Sowerby, however!
+I place these scripts and LUTs under the terms of the GPL license
