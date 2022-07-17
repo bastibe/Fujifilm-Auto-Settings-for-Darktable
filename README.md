@@ -10,7 +10,7 @@ This repository contains styles and scripts and LUTs to automatically read and a
 
 Install `exiftool` and make sure it is available on `$PATH`.
 
-Go to Darktable's settings, in the tab "processing", set a 3D lut root folder. Copy the supplied LUTs into that directory, such that e.g. the Provia LUT is at `$3DLUTROOTFOLDER/Fuji XTrans VII/provia.png`.
+Go to Darktable's settings, in the tab "processing", set a 3D lut root folder. Copy the supplied LUTs into that directory, such that e.g. the Provia LUT is at `$3DLUTROOTFOLDER/Fuji XTrans V8/provia.png`.
 
 Import the styles in the `styles` subdirectory. The film simulation styles rely on the LUTs installed in the previous step.
 
@@ -68,9 +68,15 @@ The supplied styles implement this using the tone equalizer, by raising the -8 E
 
 Of course this can only work for properly exposed images, and even then might not be perfectly reliable. But it usually gets the images in the right ballpark in my testing.
 
+## Changelog
+
+2022-07-17 Updated LUTs with correct indexing, for markedly improved colors.
+
 ## Known Issues
 
-Some of the LUTs may introduce a magenta tint to highlights. Let me know if you know of better-behaved LUTs!
+On Windows, requires manually installing exiftool, and putting it on $PATH, and editing line 129 to read
+
+        local command = '"' .. exiftool_command .. " " .. flag .. " -t " .. RAF_filename .. '"'
 
 ## License
 
