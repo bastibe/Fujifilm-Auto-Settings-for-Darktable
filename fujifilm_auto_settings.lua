@@ -227,30 +227,49 @@ local function detect_auto_settings(event, image)
 
     -- filmmode
     local raw_filmmode = exiftool_get(exiftool_command, RAF_filename, "-FilmMode")
-    local style_map = {
-        ["Provia"] = "provia",
-        ["Astia"] = "astia",
-        ["Classic Chrome"] = "classic_chrome",
-        ["Eterna"] = "eterna",
-        ["Acros+G"] = "acros_green",
-        ["Acros+R"] = "acros_red",
-        ["Acros+Ye"] = "acros_yellow",
-        ["Acros"] = "acros",
-        ["Mono+G"] = "mono_green",
-        ["Mono+R"] = "mono_red",
-        ["Mono+Ye"] = "mono_yellow",
-        ["Mono"] = "mono",
-        ["Pro Neg. Hi"] = "pro_neg_high",
-        ["Pro Neg. Std"] = "pro_neg_standard",
-        ["Sepia"] = "sepia",
-        ["Velvia"] = "velvia",
-    }
-    for key, value in pairs(style_map) do
-        if string.find(raw_filmmode, key) then
-            apply_style(image, value)
-            apply_tag(image, key)
-            dt.print_log("[fujifilm_auto_settings] film simulation " .. key)
+    local raw_saturation = exiftool_get(exiftool_command, RAF_filename, "-Saturation")
+    -- Check if it's a color film mode
+    if raw_filmmode then
+        local style_map = {
+            ["Provia"] = "provia",
+            ["Astia"] = "astia",
+            ["Classic Chrome"] = "classic_chrome",
+            ["Eterna"] = "eterna",
+            ["Pro Neg. Hi"] = "pro_neg_high",
+            ["Pro Neg. Std"] = "pro_neg_standard",
+            ["Velvia"] = "velvia",
+        }
+        for key, value in pairs(style_map) do
+            if string.find(raw_filmmode, key) then
+                apply_style(image, value)
+                apply_tag(image, key)
+                dt.print_log("[fujifilm_auto_settings] film simulation " .. key)
+                break
+            end
         end
+    -- else check if it's a b&w film mode
+    elseif raw_saturation then
+        local style_map = {
+            ["Acros Green Filter"] = "acros",
+            ["Acros Red Filter"] = "acros",
+            ["Acros Yellow Filter"] = "acros",
+            ["Acros"] = "acros",
+            ["None (B&W)"] = "acros",
+            ["B&W Green Filter"] = "acros",
+            ["B&W Red Filter"] = "acros",
+            ["B&W Yellow Filter"] = "acros",
+            ["B&W Sepia"] = "acros"
+        }
+        for key, value in pairs(style_map) do
+            if raw_saturation == key then
+                apply_style(image, value)
+                apply_tag(image, key)
+                dt.print_log("[fujifilm_auto_settings] b&w film simulation: " .. key)
+                break
+            end
+        end
+    else
+        dt.print_log("[fujifilm_auto_settings] neither -filmmode or -saturation matched anything in their style_map's")
     end
 end
 
