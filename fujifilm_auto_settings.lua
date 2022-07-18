@@ -269,7 +269,7 @@ local function detect_auto_settings(event, image)
             end
         end
     else
-        dt.print_log("[fujifilm_auto_settings] neither -filmmode or -saturation matched anything in their style_map's")
+        dt.print_log("[fujifilm_auto_settings] neither -filmmode or -saturation was found")
     end
 end
 
