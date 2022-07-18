@@ -240,8 +240,8 @@ local function detect_auto_settings(event, image)
         ["Mono+R"] = "mono_red",
         ["Mono+Ye"] = "mono_yellow",
         ["Mono"] = "mono",
-        ["Pro Neg Hi"] = "pro_neg_high",
-        ["Pro Neg Std"] = "pro_neg_standard",
+        ["Pro Neg. Hi"] = "pro_neg_high",
+        ["Pro Neg. Std"] = "pro_neg_standard",
         ["Sepia"] = "sepia",
         ["Velvia"] = "velvia",
     }
