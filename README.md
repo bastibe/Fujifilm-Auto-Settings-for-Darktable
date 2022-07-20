@@ -1,6 +1,7 @@
 # Fujifilm Auto Settings for Darktable
 
-This repository contains styles and scripts and LUTs to automatically read and apply
+This repository contains styles and scripts and LUTs to automatically
+read and apply
 
 - Film Simulation
 - 2:3/16:9/1:1 crop
@@ -10,25 +11,37 @@ This repository contains styles and scripts and LUTs to automatically read and a
 
 Install `exiftool` and make sure it is available on `$PATH`.
 
-Go to Darktable's settings, in the tab "processing", set a 3D lut root folder. Copy the supplied LUTs into that directory, such that e.g. the Provia LUT is at `$3DLUTROOTFOLDER/Fuji XTrans V8/provia.png`.
+Go to Darktable's settings, in the tab "processing", set a 3D lut root
+folder. Copy the supplied LUTs into that directory, such that e.g. the
+Provia LUT is at `$3DLUTROOTFOLDER/Fuji XTrans V8/provia.png`.
 
-Import the styles in the `styles` subdirectory. The film simulation styles rely on the LUTs installed in the previous step.
+Import the styles in the `styles` subdirectory. The film simulation
+styles rely on the LUTs installed in the previous step.
 
-Activate Darktable's script manager from the Lighttable view in the bottom left.
+Activate Darktable's script manager from the Lighttable view in the
+bottom left.
 
-Copy `fujifilm_auto_settings.lua` to `~/.config/darktable/lua/contrib/`, then start it with the script manager. It should now automatically apply the styles to any imported RAF image.
+Copy `fujifilm_auto_settings.lua` to
+`~/.config/darktable/lua/contrib/`, then start it with the script
+manager. It should now automatically apply the styles to any imported
+RAF image.
 
 ## Debugging
 
-Start Darktable with `darktable -d lua` to debug. You can run the lua script manually by binding a keyboard shortcut to `fujifilm_auto_settings` in Darktable's settings.
+Start Darktable with `darktable -d lua` to debug. You can run the lua
+script manually by binding a keyboard shortcut to
+`fujifilm_auto_settings` in Darktable's settings.
 
 ## How it Works
 
-The lua plugin calls `exiftool` to read the film simulation, crop mode, and DR mode from the RAF file. It then applies one of the supplied styles, and sets an appropriate tag.
+The lua plugin calls `exiftool` to read the film simulation, crop
+mode, and DR mode from the RAF file. It then applies one of the
+supplied styles, and sets an appropriate tag.
 
 #### Film Simulations
 
-The following styles apply Fuji film simulations from https://github.com/bastibe/LUT-Maker:
+The following styles apply Fuji film simulations from
+https://github.com/bastibe/LUT-Maker:
 
 - acros
 - acros\_green
@@ -58,7 +71,8 @@ The following styles apply a 16:9/1:1 crop:
 - square\_crop\_portrait
 - square\_crop\_landscape
 
-2:3 crop does not have its own style, since Fujifilm images are already 2:3.
+2:3 crop does not have its own style, since Fujifilm images are
+already 2:3.
 
 The crop styles are not pixel-perfect.
 
@@ -69,23 +83,36 @@ The following styles apply for DR200 and DR400:
 - DR200
 - DR400
 
-As far as I can tell, the DR modes reduce the raw exposure by one/two stops to make room for additional highlights, and increase the tone curve for midtones and shadows to compensate.
+As far as I can tell, the DR modes reduce the raw exposure by one/two
+stops to make room for additional highlights, and increase the tone
+curve for midtones and shadows to compensate.
 
-The supplied styles implement this using the tone equalizer, by raising the -8 EV to -4 EV sliders to +1 EV, then -3 EV to +0.75, -2 EV to +0.5, -1 EV to +0.25 EV, and 0 EV to 0 EV (for DR200; double all values for DR400). I experimented a bit with various *preserve details* functions, and found *eigf* to look most similar to Fuji's embedded JPEGs, so that's what the styles use.
+The supplied styles implement this using the tone equalizer, by
+raising the -8 EV to -4 EV sliders to +1 EV, then -3 EV to +0.75, -2
+EV to +0.5, -1 EV to +0.25 EV, and 0 EV to 0 EV (for DR200; double all
+values for DR400). I experimented a bit with various *preserve
+details* functions, and found *eigf* to look most similar to Fuji's
+embedded JPEGs, so that's what the styles use.
 
-Of course this can only work for properly exposed images, and even then might not be perfectly reliable. But it usually gets the images in the right ballpark in my testing.
+Of course this can only work for properly exposed images, and even
+then might not be perfectly reliable. But it usually gets the images
+in the right ballpark in my testing.
 
 ## Changelog
 
+2022-07-20 Only call exiftool once, to speed up operation  
 2022-07-20 Added monochrome LUTs and styles  
 2022-07-20 Various fixes by Teh-Lemon  
 2022-07-17 Updated LUTs with correct indexing, for markedly improved colors.
 
 ## Known Issues
 
-On Windows, requires manually installing exiftool, and putting it on $PATH, and editing line 129 to read
+The LUTs training data does not contain saturated colors beyond what
+is natural. Even though some intelligent extrapolation is applied,
+pushing saturation too far may result in incorrect colors. Apply a
+parametric mask that excludes high Cz if this becomes a problem.
 
-        local command = '"' .. exiftool_command .. " " .. flag .. " -t " .. RAF_filename .. '"'
+In particular, oversaturated colors will turn grey in the sepia LUT.
 
 ## License
 
