@@ -227,7 +227,6 @@ local function detect_auto_settings(event, image)
 
     -- filmmode
     local raw_filmmode = exiftool_get(exiftool_command, RAF_filename, "-FilmMode")
-    local raw_saturation = exiftool_get(exiftool_command, RAF_filename, "-Saturation")
     -- Check if it's a color film mode
     if raw_filmmode then
         local style_map = {
@@ -248,28 +247,31 @@ local function detect_auto_settings(event, image)
             end
         end
     -- else check if it's a b&w film mode
-    elseif raw_saturation then
-        local style_map = {
-            ["Acros Green Filter"] = "acros",
-            ["Acros Red Filter"] = "acros",
-            ["Acros Yellow Filter"] = "acros",
-            ["Acros"] = "acros",
-            ["None (B&W)"] = "acros",
-            ["B&W Green Filter"] = "acros",
-            ["B&W Red Filter"] = "acros",
-            ["B&W Yellow Filter"] = "acros",
-            ["B&W Sepia"] = "acros"
-        }
-        for key, value in pairs(style_map) do
-            if raw_saturation == key then
-                apply_style(image, value)
-                apply_tag(image, key)
-                dt.print_log("[fujifilm_auto_settings] b&w film simulation: " .. key)
-                break
-            end
-        end
     else
-        dt.print_log("[fujifilm_auto_settings] neither -filmmode or -saturation was found")
+        local raw_saturation = exiftool_get(exiftool_command, RAF_filename, "-Saturation")
+        if raw_saturation then
+            local style_map = {
+                ["Acros Green Filter"] = "acros",
+                ["Acros Red Filter"] = "acros",
+                ["Acros Yellow Filter"] = "acros",
+                ["Acros"] = "acros",
+                ["None (B&W)"] = "acros",
+                ["B&W Green Filter"] = "acros",
+                ["B&W Red Filter"] = "acros",
+                ["B&W Yellow Filter"] = "acros",
+                ["B&W Sepia"] = "acros"
+            }
+            for key, value in pairs(style_map) do
+                if raw_saturation == key then
+                    apply_style(image, value)
+                    apply_tag(image, key)
+                    dt.print_log("[fujifilm_auto_settings] b&w film simulation: " .. key)
+                    break
+                end
+            end
+        else
+            dt.print_log("[fujifilm_auto_settings] neither -filmmode or -saturation was found")
+        end
     end
 end
 
