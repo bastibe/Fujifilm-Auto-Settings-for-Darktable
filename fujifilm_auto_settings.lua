@@ -204,11 +204,12 @@ local function detect_auto_settings(event, image)
 
     -- cropmode
     local raw_aspect_ratio = exiftool_get(exiftool_command, RAF_filename, "-RawImageAspectRatio")
+    local raw_orientation = exiftool_get(exiftool_command, RAF_filename, "-Orientation")
     if raw_aspect_ratio == "3:2" then
         apply_tag(image, "3:2")
         -- default; no need to apply style
     elseif raw_aspect_ratio == "1:1" then
-        if image.width > image.height then
+        if raw_orientation == "Horizontal (normal)" or raw_orientation == "Rotate 180" then
             apply_style(image, "square_crop_landscape")
         else
             apply_style(image, "square_crop_portrait")
@@ -216,7 +217,7 @@ local function detect_auto_settings(event, image)
         apply_tag(image, "1:1")
         dt.print_log("[fujifilm_auto_settings] square crop")
     elseif raw_aspect_ratio == "16:9" then
-        if image.width > image.height then
+        if raw_orientation == "Horizontal (normal)" or raw_orientation == "Rotate 180" then
             apply_style(image, "sixteen_by_nine_crop_landscape")
         else
             apply_style(image, "sixteen_by_nine_crop_portrait")
