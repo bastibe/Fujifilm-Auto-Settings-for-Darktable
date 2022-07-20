@@ -83,7 +83,9 @@ Of course this can only work for properly exposed images, and even then might no
 
 ## Known Issues
 
-On Windows, requires manually installing exiftool and putting it on %PATH%.
+On Windows, requires manually installing exiftool, and putting it on $PATH, and editing line 129 to read
+
+        local command = '"' .. exiftool_command .. " " .. flag .. " -t " .. RAF_filename .. '"'
 
 ## License
 
