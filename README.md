@@ -31,9 +31,16 @@ The lua plugin calls `exiftool` to read the film simulation, crop mode, and DR m
 The following styles apply Fuji film simulations from https://github.com/bastibe/LUT-Maker:
 
 - acros
+- acros\_green
+- acros\_red
+- acros\_yellow
 - astia
-- eterna
 - classic\_chrome
+- eterna
+- mono
+- mono\_green
+- mono\_red
+- mono\_yellow
 - pro\_neg\_high
 - pro\_neg\_standard
 - provia
@@ -70,13 +77,13 @@ Of course this can only work for properly exposed images, and even then might no
 
 ## Changelog
 
+2022-07-20 Added monochrome LUTs and styles  
+2022-07-20 Various fixes by Teh-Lemon  
 2022-07-17 Updated LUTs with correct indexing, for markedly improved colors.
 
 ## Known Issues
 
-On Windows, requires manually installing exiftool, and putting it on $PATH, and editing line 129 to read
-
-        local command = '"' .. exiftool_command .. " " .. flag .. " -t " .. RAF_filename .. '"'
+On Windows, requires manually installing exiftool and putting it on %PATH%.
 
 ## License
 

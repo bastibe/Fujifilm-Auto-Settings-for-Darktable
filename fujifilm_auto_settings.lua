@@ -251,15 +251,15 @@ local function detect_auto_settings(event, image)
     -- else check if it's a b&w film mode
     elseif raw_saturation then
         local style_map = {
-            ["Acros Green Filter"] = "acros",
-            ["Acros Red Filter"] = "acros",
-            ["Acros Yellow Filter"] = "acros",
+            ["Acros Green Filter"] = "acros_green",
+            ["Acros Red Filter"] = "acros_red",
+            ["Acros Yellow Filter"] = "acros_yellow",
             ["Acros"] = "acros",
-            ["None (B&W)"] = "acros",
-            ["B&W Green Filter"] = "acros",
-            ["B&W Red Filter"] = "acros",
-            ["B&W Yellow Filter"] = "acros",
-            ["B&W Sepia"] = "acros"
+            ["None (B&W)"] = "mono",
+            ["B&W Green Filter"] = "mono_green",
+            ["B&W Red Filter"] = "mono_red",
+            ["B&W Yellow Filter"] = "mono_yellow",
+            ["B&W Sepia"] = "sepia"
         }
         for key, value in pairs(style_map) do
             if raw_saturation == key then
