@@ -126,7 +126,7 @@ script_data.destroy_method = nil -- set to hide for libs since we can't destroy 
 script_data.restart = nil -- how to restart the (lib) script after it's been hidden - i.e. make it visible again
 
 local function exiftool_get(exiftool_command, RAF_filename, flag)
-    local command = exiftool_command .. " " .. flag .. " -t " .. RAF_filename
+    local command = '"' .. exiftool_command .. " " .. flag .. " -t " .. RAF_filename .. '"'
     dt.print_log(command)
     local output = io.popen(command)
     local exiftool_result = output:read("*all")
